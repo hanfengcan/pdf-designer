@@ -34,11 +34,11 @@ npm run build
 
 # 效果图
 
-使用分层设计思路
-![分层](img\微信图片_20191007181024.png)
+使用分层设计思路  
+![分层](img/微信图片_20191007181024.png)
 
-画出单据的版式
-![pdf](img\E02261F4-B3D7-40a8-8FCD-F30FDB698EE9.png)
+画出单据的版式  
+![pdf](img/E02261F4-B3D7-40a8-8FCD-F30FDB698EE9.png)
 
-打印成pdf的效果
-![pdf](img\C3138469-1C28-4cd5-A7DB-1039CC25FBEA.png)
+打印成pdf的效果  
+![pdf](img/C3138469-1C28-4cd5-A7DB-1039CC25FBEA.png)
