@@ -4,6 +4,7 @@ class canvasDesign {
   constructor(id) {
     this.canvas = document.getElementById(id);
     if (this.canvas.getContext) {
+      /** type {HTMLCanvasElement} */
       this.ctx = this.canvas.getContext('2d');
     }
   }
@@ -22,12 +23,13 @@ class canvasDesign {
       return;
     }
     this.ctx.beginPath();
+    this.ctx.lineJoin = 'round';
     lines.forEach((line) => {
       this.ctx.moveTo(util.mm2px(line.x), util.mm2px(line.y));
       if (line.type === 'x') {
-        this.ctx.lineTo(util.mm2px(line.h), util.mm2px(line.y));
+        this.ctx.lineTo(util.mm2px(line.h + line.x), util.mm2px(line.y));
       } else if (line.type === 'y') {
-        this.ctx.lineTo(util.mm2px(line.x), util.mm2px(line.h));
+        this.ctx.lineTo(util.mm2px(line.x), util.mm2px(line.h + line.y));
       } else {
         const msg = `type 不能为${line.type}`;
         const err = new Error(msg);
@@ -54,8 +56,31 @@ class canvasDesign {
       if (text.opt && text.opt.baseline) {
         this.ctx.textBaseline = text.opt.baseline;
       }
+      if (text.size) {
+        this.ctx.font = `${text.size}pt sans-serif`;
+      }
+      if (text.textAlign) {
+        this.ctx.textAlign = text.textAlign;
+      }
       this.ctx.fillText(text.text, util.mm2px(text.x), util.mm2px(text.y));
     });
+  }
+
+  /**
+   * 绘阴影
+   * @param {string} type 类型 eg: line, txt
+   * @param {Array} obj 阴影对象
+   */
+  drawShadow(type, obj) {
+    this.ctx.shadowOffsetX = 2;
+    this.ctx.shadowOffsetY = 2;
+    this.ctx.shadowBlur = 2;
+    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    if (type === 'lines' && obj) {
+      this.drawLines([obj]);
+    } else if (type === 'txts' && obj) {
+      this.drawtxts([obj]);
+    }
   }
 
   /**

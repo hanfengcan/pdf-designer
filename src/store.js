@@ -37,6 +37,11 @@ export default new Vuex.Store({
     },
     addTxts(state, txt) {
       state.cfg.txts.push(txt);
+      state.nodeData = {
+        label: `${txt.isTxt ? '' : 'id: '}${txt.text}`,
+        data: txt,
+        type: 'txts',
+      };
     },
     updateConfig(state, isUpdate) {
       // todo: 刷新事件
@@ -77,6 +82,10 @@ export default new Vuex.Store({
       }
       if (nodeData.type === 'page') {
         cut(newVal.isDelete, state.cfg.page, nodeData.data);
+        return;
+      }
+      if (nodeData.type === 'txts') {
+        cut(newVal.isDelete, state.cfg.txts, nodeData.data);
       }
     },
   },

@@ -31,6 +31,8 @@ export default {
       let properties = null;
       if (this.$store.state.nodeData.type === 'lines') {
         properties = this.getlinesSchema();
+      } else if (this.$store.state.nodeData.type === 'txts') {
+        properties = this.getTxtSchema();
       } else {
         properties = this.getPageSchema();
       }
@@ -66,6 +68,10 @@ export default {
             prop: 'lines',
             value,
           });
+          return;
+        }
+        if (this.$store.state.nodeData.type === 'txts') {
+          this.$store.commit('addTxts', value);
         }
       }
     },
@@ -131,7 +137,7 @@ export default {
         },
         format: {
           type: 'string',
-          default: 'a4',
+          default: '自定义',
           ui: {
             widget: 'select',
             label: '大小',
@@ -144,7 +150,7 @@ export default {
           type: 'number',
           default: '200',
           ui: {
-            showLabel: false,
+            label: 'width',
             columns: '5',
             placeholder: 'width (mm)',
             hidden: 'dx: {{$root.format}} !== "自定义"',
@@ -165,7 +171,7 @@ export default {
           type: 'number',
           default: '200',
           ui: {
-            showLabel: false,
+            label: 'height',
             columns: '5',
             placeholder: 'height (mm)',
             hidden: 'dx: {{$root.format}} !== "自定义"',
@@ -186,7 +192,7 @@ export default {
           type: 'string',
           default: 'x',
           ui: {
-            widget: 'select',
+            widget: 'radio',
             label: '方向',
             widgetConfig: {
               enumSource: [
@@ -224,6 +230,82 @@ export default {
           ui: {
             label: 'h (w)',
             placeholder: 'width (mm)',
+          },
+        },
+      };
+    },
+    getTxtSchema() {
+      return {
+        name: {
+          type: 'string',
+          ui: {
+            widget: 'label',
+            label: '文本',
+          },
+        },
+        x: {
+          type: 'number',
+          default: 10,
+          ui: {
+            label: 'x',
+            placeholder: 'width (mm)',
+          },
+        },
+        y: {
+          type: 'number',
+          default: 10,
+          ui: {
+            label: 'y',
+            placeholder: 'width (mm)',
+          },
+        },
+        size: {
+          type: 'number',
+          default: 16,
+          ui: {
+            label: 'font size(pt)',
+            placeholder: 'font size(pt)',
+          },
+        },
+        textAlign: {
+          type: 'string',
+          default: 'left',
+          ui: {
+            widget: 'select',
+            label: '大小',
+            widgetConfig: {
+              enumSource: [
+                { label: 'left', value: 'left' },
+                { label: 'right', value: 'right' },
+                { label: 'center', value: 'center' },
+              ],
+            },
+          },
+        },
+        isTxt: {
+          type: 'boolean',
+          default: true,
+          ui: {
+            widget: 'radio',
+            label: 'type',
+            widgetConfig: {
+              enumSource: [
+                {
+                  value: true,
+                  label: '文本',
+                },
+                {
+                  value: false,
+                  label: '占位',
+                },
+              ],
+            },
+          },
+        },
+        text: {
+          type: 'string',
+          ui: {
+            label: 'dx: {{$root.isTxt}} ? "文本" : "占位id"',
           },
         },
       };

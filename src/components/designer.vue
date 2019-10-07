@@ -5,6 +5,11 @@
       v-for="p in page" :key="p.id"
       :style="p">
       <canvas
+        id="canvas-layer-shadow"
+        :width="mm2px(p.width)"
+        :height="mm2px(p.height)"
+      ></canvas>
+      <canvas
         id="canvas-layer-1"
         :width="mm2px(p.width)"
         :height="mm2px(p.height)"
@@ -29,6 +34,7 @@ export default {
   },
   data() {
     return {
+      canvasShadow: null,
       canvasLayer: null,
       canvasTxt: null,
     };
@@ -48,10 +54,21 @@ export default {
       this.canvasLayer.drawLines(this.$store.state.cfg.layer.lines);
     },
     // eslint-disable-next-line func-names
-    '$store.state.cfg.layer.txt': function () {
+    '$store.state.cfg.txts': function () {
       if (this.canvasTxt === null) {
-        this.canvasTxt = new CanvasDesign('canvasTxt');
+        this.canvasTxt = new CanvasDesign('canvas-txt');
       }
+      this.canvasTxt.clearCanvas();
+      this.canvasTxt.drawtxts(this.$store.state.cfg.txts);
+    },
+    // eslint-disable-next-line func-names
+    '$store.state.nodeData': function () {
+      if (this.canvasShadow === null) {
+        this.canvasShadow = new CanvasDesign('canvas-layer-shadow');
+      }
+      this.canvasShadow.clearCanvas();
+      this.canvasShadow
+        .drawShadow(this.$store.state.nodeData.type, this.$store.state.nodeData.data);
     },
   },
   methods: {
@@ -97,6 +114,9 @@ export default {
         position: absolute;
         top: 0px;
         left: 0px;
+      }
+      #canvas-layer-shadow {
+        z-index: 1;
       }
       #canvas-layer-1 {
         z-index: 10;

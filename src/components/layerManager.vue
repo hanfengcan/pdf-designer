@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-collapse v-model="manager" accordion>
+    <el-collapse v-model="manager">
       <el-collapse-item title="纸张层" name="page">
         <el-tree
           :data="page"
@@ -78,7 +78,7 @@ export default {
     },
     page() {
       return this.$store.state.cfg.page.map(p => ({
-        label: `${p.name || '纸张'}`,
+        label: `${p.name || '纸张'} ${p.width}*${p.height}`,
         data: p,
         type: 'page',
       }));

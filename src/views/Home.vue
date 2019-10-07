@@ -7,7 +7,7 @@
           @click="panel = 'design'"
           :class="{ 'switch-active': panel === 'design', 'switch-design': true}">设计</div>
         <div
-          @click="panel = 'preview'"
+          @click="preview"
           :class="{ 'switch-active': panel === 'preview', 'switch-preview': true}">预览</div>
       </div>
       <div class="panel">
@@ -26,6 +26,7 @@ import PdfDesign from '@/js/pdfDesign';
 import designer from '@/components/designer.vue';
 import layerManager from '@/components/layerManager.vue';
 import configPanel from '@/components/configPanel.vue';
+import util from '@/js/util';
 
 export default {
   name: 'home',
@@ -37,44 +38,19 @@ export default {
   data() {
     return {
       panel: 'design',
+      pdf: null,
     };
   },
-  create() {
+  methods: {
+    preview() {
+      this.pdf.setCfg(util.config2pdfConfig(this.$store.state.cfg));
+      this.pdf.render();
+      pdfobj.embed(this.pdf.update(), '#pdf-viewer');
+      this.panel = 'preview';
+    },
   },
   mounted() {
-    const pdf = new PdfDesign();
-    const cfg = pdf.getCfg();
-    cfg.layer.lines = [{
-      type: 'y', x: 20, y: 0, h: 580,
-    }, {
-      type: 'y', x: 40, y: 0, h: 580,
-    }, {
-      type: 'y', x: 60, y: 0, h: 580,
-    }, {
-      type: 'y', x: 80, y: 0, h: 580,
-    }, {
-      type: 'y', x: 100, y: 0, h: 580,
-    }, {
-      type: 'y', x: 120, y: 0, h: 580,
-    }, {
-      type: 'y', x: 140, y: 0, h: 580,
-    }, {
-      type: 'y', x: 160, y: 0, h: 580,
-    }, {
-      type: 'y', x: 180, y: 0, h: 580,
-    }, {
-      type: 'y', x: 200, y: 0, h: 580,
-    }, {
-      type: 'y', x: 210, y: 0, h: 580,
-    }];
-    // cfg.txts = [{
-    //   text: 'hello', x: 10, y: 10,
-    // }, {
-    //   text: 'world', x: 10, y: 20, size: 16,
-    // }];
-    // pdf.setCfg(cfg);
-    pdf.render();
-    pdfobj.embed(pdf.update(), '#pdf-viewer');
+    this.pdf = new PdfDesign();
   },
 };
 </script>

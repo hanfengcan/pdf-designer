@@ -84,17 +84,13 @@ class pdfDesign {
    */
   drawtxts(txts) {
     txts.forEach((text) => {
-      const obj = {
-      };
       if (text.size) {
         this.pdf.setFontSize(text.size);
       }
       if (text.style) {
         this.pdf.setFontStyle(text.style);
       }
-      this.pdf.text(text.text, text.x, text.y, Object.assign(obj, {
-        baseline: 'alphabetic',
-      }));
+      this.pdf.text(text.text, text.x, text.y, text.opt);
     });
   }
 
