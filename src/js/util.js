@@ -28,7 +28,7 @@ export default {
     pdf.page.format = cfg.page[0].format === '自定义' ? [this.mm2pt(cfg.page[0].width), this.mm2pt(cfg.page[0].height)] : cfg.page.format;
     pdf.layer = cfg.layer;
     pdf.txts = cfg.txts.map(t => ({
-      text: t.isTxt ? t.text : pdf.data[t.text],
+      text: t.isTxt ? t.text : pdf.data[t.text], // todo: 占位符
       x: t.x,
       y: t.y,
       size: t.size,
