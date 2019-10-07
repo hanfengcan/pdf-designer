@@ -12,15 +12,30 @@
       <el-button
         type="primary"
         @click="submit">{{ isNew ? '确定' : '更新' }}</el-button>
+      <el-button
+        type="primary"
+        @click="exportCfg">导出配置</el-button>
     </div>
+    <el-dialog title="导出配置" :visible.sync="isExport">
+      <el-input
+        type="textarea"
+        :autosize="{ minRows: 10, maxRows: 40}"
+        placeholder="请输入内容"
+        v-model="ecfg">
+      </el-input>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import util from '@/js/util';
+
 export default {
   name: 'configPanel',
   data() {
     return {
+      isExport: false,
+      ecfg: null,
     };
   },
   computed: {
@@ -74,6 +89,10 @@ export default {
           this.$store.commit('addTxts', value);
         }
       }
+    },
+    exportCfg() {
+      this.ecfg = JSON.stringify(util.config2pdfConfig(this.$store.state.cfg));
+      this.isExport = true;
     },
     onChange() {
       // paths: 发生值变化的项的路径
