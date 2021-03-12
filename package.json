@@ -13,7 +13,7 @@
     "@ncform/ncform-theme-elementui": "^1.4.0",
     "core-js": "^2.6.5",
     "element-ui": "^2.4.5",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "pdfobject": "^2.1.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
